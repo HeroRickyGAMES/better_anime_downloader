@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:http/http.dart' as http;
 
+//Programado por HeroRickyGames com a ajuda de Deus para ver anime! Convertido com documentações e ajuda do Chatgpt e do overstackflow.
+
 class BetterAnimeDownloader {
   final String token;
   var context;

@@ -4,6 +4,8 @@ import 'package:better_anime_downloader_flutter/better_anime_download_script.dar
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
+//Desenvolvido por HeroRickyGames com a ajuda de Deus para ver anime!
+
 String url = "";
 
 downloadM3U8File(String url, String filePath, var context) async {
