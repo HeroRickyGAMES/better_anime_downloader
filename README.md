@@ -1,4 +1,4 @@
-# better_anime_downloader_flutter
+# Better Anime Downloader Flutter
 
 <text>Feito em Dart, Flutter com carinho</text>
 
