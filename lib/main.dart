@@ -137,7 +137,7 @@ class _homeAppState extends State<homeApp> {
                             "file": fileUrl
                           }
                         };
-                        await convertToMp4(result['sources']['file'], episodio.replaceAll(":", ''), context);
+                        await convertToMp4(result['sources']['file'], episodio.replaceAll(":", '').replaceAll(',', '').replaceAll("-", ''), context);
 
                         print(result['sources']['file']);
                       } else {
