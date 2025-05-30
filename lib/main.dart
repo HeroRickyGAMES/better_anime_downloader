@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 
 String url = "";
 
-Future<void> convertToMp4(String inputUrl, String filename, var context) async {
+Future<void> convertToMp4(String inputUrl, String filename, BuildContext context) async {
+
   print(inputUrl);
   String? directoryPath = await FilePicker.platform.getDirectoryPath();
   if (directoryPath != null) {
@@ -40,7 +41,7 @@ Future<void> convertToMp4(String inputUrl, String filename, var context) async {
   }
 }
 
-void main() {
+main() {
   runApp(
     MaterialApp(
       home: homeApp(),
@@ -113,7 +114,7 @@ class _homeAppState extends State<homeApp> {
                     print('Episódio: $episodio');
 
                     // Criando nome de arquivo
-                    final fileName = '$nomeAnime-episodio-$episodio'.replaceAll(":", ' ').replaceAll(',', ' ').replaceAll("-", ' ');
+                    final fileName = '$nomeAnime-episodio-$episodio'.replaceAll(":", ' ').replaceAll(',', '-');
                     convertToMp4(url, fileName, context);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
