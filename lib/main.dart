@@ -43,25 +43,12 @@ Future<void> convertToMp4(String inputUrl, String filename, BuildContext context
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pronto!')));
     }else{
-      var filem3 = File('$directoryPath/$filename.m3u8');
 
-      //Fazer download em get mesmo!
-      final response = await http.get(Uri.parse(map['m3u8Url']!));
-
-      if (response.statusCode == 200) {
-        final file = File(filem3.path);
-        filem3 = await file.writeAsBytes(response.bodyBytes);
-        print('Arquivo salvo em: ${filem3.path}');
-      } else {
-        print('Falha ao baixar arquivo. Status code: ${response.statusCode}');
-      }
-
-      String command = 'vlc/vlc "${filem3.path}" --sout "#transcode{vcodec=h264,acodec=mp3,ab=128,channels=2,samplerate=44100}:file{dst=${file.path}}" vlc://quit';
+      String command = 'vlc/vlc "$urlFinal" --sout "#transcode{vcodec=h264,acodec=mp3,ab=128,channels=2,samplerate=44100}:file{dst=${file.path}}" vlc://quit';
 
       ProcessResult result = await Process.run('powershell.exe', ['-c', command]);
 
       print(result.stdout.toString());
-      await filem3.delete();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pronto!')));
     }
 
