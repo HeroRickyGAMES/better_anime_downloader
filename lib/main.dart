@@ -9,32 +9,38 @@ import 'package:flutter/material.dart';
 String url = "";
 
 Future<void> convertToMp4(String inputUrl, String filename, BuildContext context) async {
-
   print(inputUrl);
   String? directoryPath = await FilePicker.platform.getDirectoryPath();
   if (directoryPath != null) {
-    var filem3 = File('$directoryPath/$filename.m3u8');
     var file = File('$directoryPath/$filename.mp4');
     var map = await capturarM3u8(url);
 
     //Fazer download em get mesmo!
     final uri = Uri.parse(url);
-    final response = await http.get(Uri.parse(map['m3u8Url']!));
+    String? urlFinal = map['m3u8FinalURL'];
 
-    if (response.statusCode == 200) {
-      final file = File(filem3.path);
-      filem3 = await file.writeAsBytes(response.bodyBytes);
-      print('Arquivo salvo em: ${filem3.path}');
-    } else {
-      print('Falha ao baixar arquivo. Status code: ${response.statusCode}');
-    }
+    String command = 'ffmpeg/ffmpeg -i "$urlFinal" -c copy ${file.path}';
+    print(command);
 
-    String command = 'vlc/vlc "${filem3.path}" --sout "#transcode{vcodec=h264,acodec=mp3,ab=128,channels=2,samplerate=44100}:file{dst=${file.path}}" vlc://quit';
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          title: Text('Aguarde!'),
+          actions: [
+            Center(
+              child: CircularProgressIndicator(),
+            )
+          ],
+        );
+      },
+    );
 
     ProcessResult result = await Process.run('powershell.exe', ['-c', command]);
 
     print(result.stdout.toString());
-    await filem3.delete();
+    print(result.stderr.toString());
+    Navigator.pop(context);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pronto!')));
   } else {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Nenhum diretório escolhido")));
